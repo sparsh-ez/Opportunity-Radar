@@ -4,17 +4,18 @@ import { supabaseRest } from "./supabase-rest";
 
 type OpportunityRow = { id: string; data: unknown };
 
-export async function getOpportunities(): Promise<Opportunity[]> {
+export async function getOpportunities(ownerId: string): Promise<Opportunity[]> {
   const rows = await supabaseRest<OpportunityRow[]>(
     "opportunities",
-    { query: "select=id,data&order=created_at.desc" }
+    { query: `select=id,data&owner_id=eq.${encodeURIComponent(ownerId)}&order=created_at.desc` }
   );
   return rows.map((row) => normalizeOpportunityRecord(row.data));
 }
 
-export async function saveOpportunities(opportunities: Opportunity[]): Promise<void> {
+export async function saveOpportunities(ownerId: string, opportunities: Opportunity[]): Promise<void> {
   const rows = opportunities.map((opportunity) => ({
     id: opportunity.id,
+    owner_id: ownerId,
     data: opportunity,
     updated_at: new Date().toISOString(),
   }));
@@ -26,15 +27,15 @@ export async function saveOpportunities(opportunities: Opportunity[]): Promise<v
   });
 }
 
-export async function getOpportunityById(id: string): Promise<Opportunity | null> {
+export async function getOpportunityById(id: string, ownerId: string): Promise<Opportunity | null> {
   const rows = await supabaseRest<OpportunityRow[]>(
     "opportunities",
-    { query: `select=id,data&id=eq.${encodeURIComponent(id)}&limit=1` }
+    { query: `select=id,data&id=eq.${encodeURIComponent(id)}&owner_id=eq.${encodeURIComponent(ownerId)}&limit=1` }
   );
   return rows[0] ? normalizeOpportunityRecord(rows[0].data) : null;
 }
 
-export async function upsertOpportunity(opportunity: Opportunity): Promise<Opportunity> {
+export async function upsertOpportunity(opportunity: Opportunity, ownerId: string): Promise<Opportunity> {
   const now = new Date().toISOString();
   const saved = {
     ...opportunity,
@@ -44,7 +45,7 @@ export async function upsertOpportunity(opportunity: Opportunity): Promise<Oppor
   await supabaseRest<unknown>("opportunities", {
     method: "POST",
     query: "on_conflict=id",
-    body: [{ id: saved.id, data: saved, updated_at: now }],
+    body: [{ id: saved.id, owner_id: ownerId, data: saved, updated_at: now }],
     prefer: "resolution=merge-duplicates,return=minimal",
   });
   return saved;
@@ -52,12 +53,12 @@ export async function upsertOpportunity(opportunity: Opportunity): Promise<Oppor
 
 export const saveOpportunity = upsertOpportunity;
 
-export async function deleteOpportunity(id: string): Promise<boolean> {
-  const existing = await getOpportunityById(id);
+export async function deleteOpportunity(id: string, ownerId: string): Promise<boolean> {
+  const existing = await getOpportunityById(id, ownerId);
   if (!existing) return false;
   await supabaseRest<unknown>("opportunities", {
     method: "DELETE",
-    query: `id=eq.${encodeURIComponent(id)}`,
+    query: `id=eq.${encodeURIComponent(id)}&owner_id=eq.${encodeURIComponent(ownerId)}`,
     prefer: "return=minimal",
   });
   return true;
@@ -65,9 +66,10 @@ export async function deleteOpportunity(id: string): Promise<boolean> {
 
 export async function checkDuplicate(
   candidate: { title: string; sourceUrl?: string; registrationUrl?: string | null },
+  ownerId: string,
   existingList?: Opportunity[]
 ): Promise<{ isDuplicate: boolean; reason: string | null; existingId?: string }> {
-  const all = existingList || (await getOpportunities());
+  const all = existingList || (await getOpportunities(ownerId));
   const candNormTitle = normalizeTitleForDeduplication(candidate.title);
   const candNormSource = candidate.sourceUrl ? normalizeUrlForDeduplication(candidate.sourceUrl) : null;
   const candNormReg = candidate.registrationUrl ? normalizeUrlForDeduplication(candidate.registrationUrl) : null;
