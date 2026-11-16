@@ -2,11 +2,14 @@ import { NextRequest } from "next/server";
 import { getProfile } from "@/lib/profile-storage";
 import { runPersonalizedDiscovery, DiscoveryStreamEvent } from "@/lib/discovery/runner";
 import { DiscoverySourceId } from "@/types/profile";
+import { requireUser } from "@/lib/require-user";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { "Content-Type": "application/json" } });
     const body = await req.json().catch(() => ({}));
-    let profile = await getProfile();
+    let profile = await getProfile(user.id);
 
     if (body.profile) {
       profile = { ...profile, ...body.profile };
@@ -45,7 +48,7 @@ export async function POST(req: NextRequest) {
         };
 
         try {
-          const result = await runPersonalizedDiscovery(profile!, sourceIds, (event) => {
+          const result = await runPersonalizedDiscovery(profile!, sourceIds, user.id, (event) => {
             sendEvent(event);
           });
 
