@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -11,7 +11,7 @@ export default function UpdatePasswordPage() {
   const [busy,setBusy]=useState(false);
   const router=useRouter();
 
-  async function submit(e:React.FormEvent){
+  async function submit(e:FormEvent){
     e.preventDefault(); setBusy(true); setError(""); setMessage("");
     try {
       if(password.length<8) throw new Error("Use a password with at least 8 characters.");
