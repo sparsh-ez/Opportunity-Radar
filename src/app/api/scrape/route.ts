@@ -3,11 +3,14 @@ import { ScrapeRequestSchema } from "@/types/opportunity";
 import { scrapeWebpage } from "@/lib/scraper/extractor";
 import { extractOpportunitiesWithGemini } from "@/lib/ai/gemini";
 import { getOpportunities, upsertOpportunity } from "@/lib/storage";
+import { requireUser } from "@/lib/require-user";
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
 
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const body = await req.json();
     const parsed = ScrapeRequestSchema.safeParse(body);
 
@@ -27,7 +30,7 @@ export async function POST(req: NextRequest) {
     const scrapedContent = await scrapeWebpage(url, { forcePlaywright });
 
     // 2. Fetch existing opportunities for duplicate detection
-    const existing = await getOpportunities();
+    const existing = await getOpportunities(user.id);
 
     // 3. Extract structured opportunities via Gemini AI
     const extractionResult = await extractOpportunitiesWithGemini(scrapedContent, existing);
@@ -35,7 +38,7 @@ export async function POST(req: NextRequest) {
     // 4. Upsert into storage
     const savedOpportunities = [];
     for (const opp of extractionResult.opportunities) {
-      const saved = await upsertOpportunity(opp);
+      const saved = await upsertOpportunity(opp, user.id);
       savedOpportunities.push(saved);
     }
 
