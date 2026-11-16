@@ -21,11 +21,10 @@ import {
   LiveLogEntry,
   LiveDiscoveryMetrics,
 } from "@/components/DiscoveryProgressModal";
-import { ResumeUploadStep } from "@/components/onboarding/ResumeUploadStep";
 import { QuestionnaireStep } from "@/components/onboarding/QuestionnaireStep";
 import { ProfileReviewStep } from "@/components/onboarding/ProfileReviewStep";
 import { Opportunity, OpportunityCategory, DiscoveryDispositionSummary } from "@/types/opportunity";
-import { UserProfile, ExtractedResumeData, DiscoverySourceId } from "@/types/profile";
+import { UserProfile, DiscoverySourceId } from "@/types/profile";
 import {
   Bell,
   Plus,
@@ -67,9 +66,7 @@ export default function Home() {
 
   // User Profile & Onboarding State
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [onboardingStep, setOnboardingStep] = useState<"resume" | "questionnaire" | "review">("resume");
-  const [resumePrefill, setResumePrefill] = useState<ExtractedResumeData | null>(null);
-  const [resumeFileName, setResumeFileName] = useState<string | null>(null);
+  const [onboardingStep, setOnboardingStep] = useState<"questionnaire" | "review">("questionnaire");
   const [draftProfile, setDraftProfile] = useState<Partial<UserProfile> | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
 
@@ -947,69 +944,14 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Step indicator */}
-              <div className="flex items-center justify-center space-x-4 pb-2">
-                <button
-                  type="button"
-                  onClick={() => setOnboardingStep("resume")}
-                  className={`flex items-center space-x-1.5 text-xs font-semibold ${
-                    onboardingStep === "resume" ? "text-[#E0564C]" : "text-[#64748B]"
-                  }`}
-                >
-                  <span className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]">1</span>
-                  <span>Resume (Optional)</span>
-                </button>
-                <span className="text-[#CBD5E1]">→</span>
-                <button
-                  type="button"
-                  onClick={() => setOnboardingStep("questionnaire")}
-                  className={`flex items-center space-x-1.5 text-xs font-semibold ${
-                    onboardingStep === "questionnaire" ? "text-[#E0564C]" : "text-[#64748B]"
-                  }`}
-                >
-                  <span className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]">2</span>
-                  <span>Questionnaire</span>
-                </button>
-                <span className="text-[#CBD5E1]">→</span>
-                <button
-                  type="button"
-                  onClick={() => setOnboardingStep("review")}
-                  className={`flex items-center space-x-1.5 text-xs font-semibold ${
-                    onboardingStep === "review" ? "text-[#E0564C]" : "text-[#64748B]"
-                  }`}
-                >
-                  <span className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]">3</span>
-                  <span>Review & Confirm</span>
-                </button>
-              </div>
-
-              {/* Step 1: Resume Upload */}
-              {onboardingStep === "resume" && (
-                <ResumeUploadStep
-                  onParsed={(extracted, fileName) => {
-                    setResumePrefill(extracted);
-                    setResumeFileName(fileName);
-                    setOnboardingStep("questionnaire");
-                  }}
-                  onSkip={() => {
-                    setResumePrefill(null);
-                    setResumeFileName(null);
-                    setOnboardingStep("questionnaire");
-                  }}
-                />
-              )}
-
               {/* Step 2: Questionnaire */}
               {onboardingStep === "questionnaire" && (
                 <QuestionnaireStep
-                  initialPrefill={resumePrefill}
                   existingProfile={draftProfile || userProfile}
-                  resumeFileName={resumeFileName}
                   onComplete={(data) => {
                     setDraftProfile((prev) => ({ ...(prev || {}), ...data }));
                     setOnboardingStep("review");
                   }}
-                  onBackToResume={() => setOnboardingStep("resume")}
                 />
               )}
 
