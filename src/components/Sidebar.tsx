@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { createClient } from "@/lib/supabase/client";
 import {
   LayoutDashboard,
   Search,
@@ -9,6 +10,7 @@ import {
   Settings,
   ChevronDown,
   UserCheck,
+  LogOut,
 } from "lucide-react";
 
 export type TabType = "dashboard" | "scraper" | "review" | "notion-settings" | "profile";
@@ -134,29 +136,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
       </div>
 
-      {/* User Profile Pill at Bottom */}
-      <div className="p-4 border-t border-[#E2E8F0]/70">
+      {/* Account controls */}
+      <div className="p-4 border-t border-[#E2E8F0]/70 space-y-2">
         <div
           onClick={() => setActiveTab("profile")}
           className={`flex items-center justify-between px-2 py-1.5 rounded-xl cursor-pointer transition-colors ${
             activeTab === "profile" ? "bg-[#DDE5FE]" : "hover:bg-[#EDF2F9]"
           }`}
         >
-          <div className="flex items-center space-x-2.5">
+          <div className="flex items-center space-x-2.5 min-w-0">
             <div className="w-7 h-7 rounded-full bg-[#EDE9FE] text-[#6D28D9] flex items-center justify-center font-bold text-xs">
               {initial}
             </div>
-            <div className="text-left">
-              <span className="text-[13px] font-semibold text-[#0F172A] truncate block max-w-[125px]">
-                {userName}
-              </span>
-              <span className="text-[10px] text-[#64748B] block">
-                {isProfileConfirmed ? "Profile Active" : "Profile Incomplete"}
-              </span>
+            <div className="text-left min-w-0">
+              <span className="text-[13px] font-semibold text-[#0F172A] truncate block max-w-[125px]">{userName}</span>
+              <span className="text-[10px] text-[#64748B] block">{isProfileConfirmed ? "Profile Active" : "Profile Incomplete"}</span>
             </div>
           </div>
           <ChevronDown className="w-3.5 h-3.5 text-[#64748B]" />
         </div>
+        <button
+          onClick={async () => {
+            await createClient().auth.signOut();
+            window.location.href = "/login";
+          }}
+          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-[#64748B] hover:text-red-700 hover:bg-red-50 transition-colors"
+        >
+          <LogOut className="w-4 h-4" /> Sign out
+        </button>
       </div>
     </aside>
   );
