@@ -4,7 +4,7 @@ import { supabaseRest } from "./supabase-rest";
 
 type OpportunityRow = { id: string; data: unknown };
 
-export async function getOpportunities(ownerId: string): Promise<Opportunity[]> {
+export async function getOpportunities(ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<Opportunity[]> {
   const rows = await supabaseRest<OpportunityRow[]>(
     "opportunities",
     { query: `select=id,data&owner_id=eq.${encodeURIComponent(ownerId)}&order=created_at.desc` }
@@ -12,7 +12,7 @@ export async function getOpportunities(ownerId: string): Promise<Opportunity[]> 
   return rows.map((row) => normalizeOpportunityRecord(row.data));
 }
 
-export async function saveOpportunities(ownerId: string, opportunities: Opportunity[]): Promise<void> {
+export async function saveOpportunities(ownerId: string = "00000000-0000-0000-0000-000000000000", opportunities: Opportunity[]): Promise<void> {
   const rows = opportunities.map((opportunity) => ({
     id: opportunity.id.startsWith(`${ownerId}:`) ? opportunity.id : `${ownerId}:${opportunity.id}`,
     owner_id: ownerId,
@@ -27,7 +27,7 @@ export async function saveOpportunities(ownerId: string, opportunities: Opportun
   });
 }
 
-export async function getOpportunityById(id: string, ownerId: string): Promise<Opportunity | null> {
+export async function getOpportunityById(id: string, ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<Opportunity | null> {
   const rows = await supabaseRest<OpportunityRow[]>(
     "opportunities",
     { query: `select=id,data&id=eq.${encodeURIComponent(id)}&owner_id=eq.${encodeURIComponent(ownerId)}&limit=1` }
@@ -35,7 +35,7 @@ export async function getOpportunityById(id: string, ownerId: string): Promise<O
   return rows[0] ? normalizeOpportunityRecord(rows[0].data) : null;
 }
 
-export async function upsertOpportunity(opportunity: Opportunity, ownerId: string): Promise<Opportunity> {
+export async function upsertOpportunity(opportunity: Opportunity, ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<Opportunity> {
   const now = new Date().toISOString();
   const scopedId = opportunity.id.startsWith(`${ownerId}:`)
     ? opportunity.id
@@ -57,7 +57,7 @@ export async function upsertOpportunity(opportunity: Opportunity, ownerId: strin
 
 export const saveOpportunity = upsertOpportunity;
 
-export async function deleteOpportunity(id: string, ownerId: string): Promise<boolean> {
+export async function deleteOpportunity(id: string, ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<boolean> {
   const existing = await getOpportunityById(id, ownerId);
   if (!existing) return false;
   await supabaseRest<unknown>("opportunities", {
@@ -70,8 +70,8 @@ export async function deleteOpportunity(id: string, ownerId: string): Promise<bo
 
 export async function checkDuplicate(
   candidate: { title: string; sourceUrl?: string; registrationUrl?: string | null },
-  ownerId: string,
-  existingList?: Opportunity[]
+  existingList?: Opportunity[],
+  ownerId: string = "00000000-0000-0000-0000-000000000000"
 ): Promise<{ isDuplicate: boolean; reason: string | null; existingId?: string }> {
   const all = existingList || (await getOpportunities(ownerId));
   const candNormTitle = normalizeTitleForDeduplication(candidate.title);
