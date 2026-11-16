@@ -3,10 +3,10 @@ import { supabaseRest } from "./supabase-rest";
 
 type ProfileRow = { id: string; data: unknown };
 
-export async function getProfile(): Promise<UserProfile | null> {
+export async function getProfile(ownerId: string): Promise<UserProfile | null> {
   const rows = await supabaseRest<ProfileRow[]>(
     "user_profiles",
-    { query: "select=id,data&limit=1" }
+    { query: `select=id,data&owner_id=eq.${encodeURIComponent(ownerId)}&limit=1` }
   );
   if (!rows[0]) return null;
   const validated = UserProfileSchema.safeParse(rows[0].data);
@@ -19,7 +19,7 @@ export async function getProfile(): Promise<UserProfile | null> {
 
 export const getUserProfile = getProfile;
 
-export async function saveProfile(profile: UserProfile): Promise<UserProfile> {
+export async function saveProfile(profile: UserProfile, ownerId: string): Promise<UserProfile> {
   const validated = UserProfileSchema.parse({
     ...profile,
     updatedAt: new Date().toISOString(),
@@ -27,16 +27,16 @@ export async function saveProfile(profile: UserProfile): Promise<UserProfile> {
   await supabaseRest<unknown>("user_profiles", {
     method: "POST",
     query: "on_conflict=id",
-    body: [{ id: validated.id, data: validated, updated_at: validated.updatedAt }],
+    body: [{ id: ownerId, owner_id: ownerId, data: validated, updated_at: validated.updatedAt }],
     prefer: "resolution=merge-duplicates,return=minimal",
   });
   return validated;
 }
 
-export async function clearProfile(): Promise<void> {
+export async function clearProfile(ownerId: string): Promise<void> {
   await supabaseRest<unknown>("user_profiles", {
     method: "DELETE",
-    query: "id=eq.default-user",
+    query: `owner_id=eq.${encodeURIComponent(ownerId)}`,
     prefer: "return=minimal",
   });
 }
