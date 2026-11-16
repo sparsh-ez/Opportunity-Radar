@@ -14,9 +14,9 @@ export async function getOpportunities(ownerId: string): Promise<Opportunity[]> 
 
 export async function saveOpportunities(ownerId: string, opportunities: Opportunity[]): Promise<void> {
   const rows = opportunities.map((opportunity) => ({
-    id: opportunity.id,
+    id: opportunity.id.startsWith(`${ownerId}:`) ? opportunity.id : `${ownerId}:${opportunity.id}`,
     owner_id: ownerId,
-    data: opportunity,
+    data: { ...opportunity, id: opportunity.id.startsWith(`${ownerId}:`) ? opportunity.id : `${ownerId}:${opportunity.id}` },
     updated_at: new Date().toISOString(),
   }));
   await supabaseRest<unknown>("opportunities", {
@@ -37,8 +37,12 @@ export async function getOpportunityById(id: string, ownerId: string): Promise<O
 
 export async function upsertOpportunity(opportunity: Opportunity, ownerId: string): Promise<Opportunity> {
   const now = new Date().toISOString();
+  const scopedId = opportunity.id.startsWith(`${ownerId}:`)
+    ? opportunity.id
+    : `${ownerId}:${opportunity.id}`;
   const saved = {
     ...opportunity,
+    id: scopedId,
     createdAt: opportunity.createdAt || now,
     updatedAt: now,
   };
