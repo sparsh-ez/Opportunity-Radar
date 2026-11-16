@@ -1035,6 +1035,44 @@ export async function findExistingNotionPage(
 }
 
 /**
+ * Finds an existing database page by its canonical source URL.
+ * Source URL is a stronger identity key than title because source titles may gain
+ * platform suffixes (for example, "· Luma") between discovery runs.
+ */
+export async function findExistingNotionPageBySourceUrl(
+  notion: Client,
+  databaseId: string,
+  sourceUrl: string,
+  dbProps: Record<string, any>
+): Promise<any | null> {
+  const sourcePropKey = dbProps["Source URL"]?.type === "url"
+    ? "Source URL"
+    : dbProps.Source?.type === "url"
+    ? "Source"
+    : null;
+  const validSourceUrl = formatNotionUrl(sourceUrl);
+  if (!sourcePropKey || !validSourceUrl) return null;
+
+  try {
+    const queryRes: any = await (notion as any).request({
+      path: `databases/${databaseId}/query`,
+      method: "POST",
+      body: {
+        filter: {
+          property: sourcePropKey,
+          url: { equals: validSourceUrl },
+        },
+        page_size: 1,
+      },
+    });
+    return queryRes.results?.[0] || null;
+  } catch (err: any) {
+    console.warn("Source URL-based Notion lookup failed:", err.message);
+    return null;
+  }
+}
+
+/**
  * Saves an approved Opportunity as a structured page in the configured Notion Database,
  * performing schema-aware property mapping, duplicate prevention, and read-after-write verification.
  */
@@ -1097,7 +1135,53 @@ export async function exportOpportunityToNotion(
       }
     }
 
-    // 5. Idempotency Check: search if an entry with identical title already exists in target DB
+    // 5. Idempotency Check: source URL is the canonical identity key.
+    // If the opportunity already exists, reuse that page without overwriting its
+    // richer, previously curated details with a lower-confidence rediscovery.
+    if (!pageId && opportunity.sourceUrl) {
+      const existingBySource = await findExistingNotionPageBySourceUrl(
+        notion,
+        databaseId,
+        opportunity.sourceUrl,
+        dbProps
+      );
+      if (existingBySource) {
+        const existingSourceUrl = existingBySource.properties?.["Source URL"]?.url ||
+          existingBySource.properties?.Source?.url || null;
+        if (existingSourceUrl === formatNotionUrl(opportunity.sourceUrl)) {
+          pageId = existingBySource.id;
+          pageUrl = existingBySource.url || `https://notion.so/${existingBySource.id.replace(/-/g, "")}`;
+          isUpdate = true;
+
+          const verificationReport: NotionVerificationReport = {
+            isVerified: true,
+            totalPropertiesChecked: 1,
+            matchedCount: 1,
+            missingInSourceCount: 0,
+            mismatchedCount: 0,
+            propertyResults: [{
+              property: "Source URL",
+              expected: formatNotionUrl(opportunity.sourceUrl),
+              actual: existingSourceUrl,
+              status: "matched",
+              details: "Existing Notion record reused by canonical source URL; existing curated properties preserved.",
+            }],
+            verifiedAt: new Date().toISOString(),
+          };
+
+          return {
+            success: true,
+            isVerified: true,
+            pageId,
+            pageUrl,
+            isUpdate: true,
+            verificationReport,
+          };
+        }
+      }
+    }
+
+    // 6. Idempotency Check: search if an entry with identical title already exists in target DB
     if (!pageId) {
       const existingPage = await findExistingNotionPage(notion, databaseId, opportunity, titlePropKey);
       if (existingPage) {
@@ -1111,7 +1195,7 @@ export async function exportOpportunityToNotion(
       }
     }
 
-    // 6. Create new page if no existing page was found
+    // 7. Create new page if no existing page was found
     if (!pageId) {
       const createdPage: any = await notion.pages.create({
         parent: { database_id: databaseId },
@@ -1131,7 +1215,7 @@ export async function exportOpportunityToNotion(
       };
     }
 
-    // 7. READ-AFTER-WRITE VERIFICATION
+    // 8. READ-AFTER-WRITE VERIFICATION
     const verificationReport = await verifyNotionPageProperties(
       notion,
       pageId,
