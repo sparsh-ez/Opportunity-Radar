@@ -77,9 +77,11 @@ export type DiscoveryProgressCallback = (event: DiscoveryStreamEvent) => void;
 export async function runPersonalizedDiscovery(
   profile: UserProfile,
   sourceIds: DiscoverySourceId[],
-  ownerId: string,
-  onProgress?: DiscoveryProgressCallback
+  ownerIdOrProgress: string | DiscoveryProgressCallback = "00000000-0000-0000-0000-000000000000",
+  onProgressMaybe?: DiscoveryProgressCallback
 ): Promise<DiscoveryRunResult> {
+  const ownerId = typeof ownerIdOrProgress === "string" ? ownerIdOrProgress : "00000000-0000-0000-0000-000000000000";
+  const onProgress = typeof ownerIdOrProgress === "function" ? ownerIdOrProgress : onProgressMaybe;
   const runId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
   const timestamp = new Date().toISOString();
 
