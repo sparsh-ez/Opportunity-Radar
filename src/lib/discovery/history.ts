@@ -48,7 +48,7 @@ async function ensureDataDir(): Promise<void> {
   }
 }
 
-export async function getDiscoveryHistory(ownerId: string): Promise<DiscoveryHistoryData> {
+export async function getDiscoveryHistory(ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<DiscoveryHistoryData> {
   await ensureDataDir();
   try {
     const raw = await fs.readFile(historyFile(ownerId), "utf-8");
@@ -67,7 +67,7 @@ export async function getDiscoveryHistory(ownerId: string): Promise<DiscoveryHis
   }
 }
 
-export async function saveDiscoveryHistory(ownerId: string, history: DiscoveryHistoryData): Promise<void> {
+export async function saveDiscoveryHistory(ownerId: string = "00000000-0000-0000-0000-000000000000", history: DiscoveryHistoryData = DEFAULT_HISTORY): Promise<void> {
   await ensureDataDir();
   const serialized = JSON.stringify(history, null, 2);
   const file = historyFile(ownerId);
@@ -124,7 +124,7 @@ export async function recordDiscoveryRunHistory(
   await saveDiscoveryHistory(ownerId, history);
 }
 
-export async function getPreviouslyRejectedUrls(ownerId: string): Promise<Map<string, CandidateHistoryRecord>> {
+export async function getPreviouslyRejectedUrls(ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<Map<string, CandidateHistoryRecord>> {
   const history = await getDiscoveryHistory(ownerId);
   const rejectedMap = new Map<string, CandidateHistoryRecord>();
   for (const [url, record] of Object.entries(history.candidateHistory)) {
