@@ -25,6 +25,8 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const { id } = await context.params;
     const existing = await getOpportunityById(id);
     if (!existing) {
