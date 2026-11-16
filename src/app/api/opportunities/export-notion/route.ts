@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOpportunityById, upsertOpportunity } from "@/lib/storage";
 import { exportOpportunityToNotion, getNotionConfig } from "@/lib/notion/client";
+import { requireUser } from "@/lib/require-user";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const body = await req.json();
     const { ids, customApiKey, customDatabaseId } = body;
 
@@ -15,8 +18,9 @@ export async function POST(req: NextRequest) {
     }
 
     const envConfig = getNotionConfig();
-    const apiKey = customApiKey || envConfig.apiKey;
-    const dbId = customDatabaseId || envConfig.databaseId;
+    const isOwner = user.email?.toLowerCase() === "shishodiasparsh@gmail.com";
+    const apiKey = customApiKey || (isOwner ? envConfig.apiKey : undefined);
+    const dbId = customDatabaseId || (isOwner ? envConfig.databaseId : undefined);
 
     if (!apiKey || !dbId) {
       return NextResponse.json(
@@ -34,7 +38,7 @@ export async function POST(req: NextRequest) {
     const errors = [];
 
     for (const id of ids) {
-      const opp = await getOpportunityById(id);
+      const opp = await getOpportunityById(id, user.id);
       if (!opp) {
         errors.push({ id, error: "Opportunity not found in local storage" });
         continue;
@@ -51,7 +55,7 @@ export async function POST(req: NextRequest) {
           notionPageId: exportResult.pageId || null,
           notionExportedAt: now,
           notionVerifiedAt: exportResult.verificationReport?.verifiedAt || now,
-        });
+        }, user.id);
 
         results.push({
           id: opp.id,
