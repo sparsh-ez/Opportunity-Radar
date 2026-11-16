@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProfile, saveProfile, clearProfile } from "@/lib/profile-storage";
 import { UserProfileSchema } from "@/types/profile";
+import { requireUser } from "@/lib/require-user";
 
 export async function GET() {
   try {
-    const profile = await getProfile();
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    const profile = await getProfile(user.id);
     return NextResponse.json({
       success: true,
       profile,
@@ -19,9 +22,12 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const body = await req.json();
     const validated = UserProfileSchema.safeParse({
       ...body,
+      id: user.id,
       createdAt: body.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       isConfirmed: true, // explicit confirmation
@@ -39,7 +45,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const saved = await saveProfile(validated.data);
+    const saved = await saveProfile(validated.data, user.id);
     return NextResponse.json({
       success: true,
       profile: saved,
@@ -53,7 +59,9 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE() {
   try {
-    await clearProfile();
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    await clearProfile(user.id);
     return NextResponse.json({ success: true, message: "Profile reset successfully." });
   } catch (err: any) {
     console.error("Profile DELETE API error:", err);
