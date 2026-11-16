@@ -3,7 +3,7 @@ import path from "path";
 import { CandidateAuditRecord, CandidateDisposition, SourcePlatform } from "@/types/opportunity";
 
 const DATA_DIR = path.join(process.cwd(), "data");
-const HISTORY_FILE = path.join(DATA_DIR, "discovery-history.json");
+const historyFile = (ownerId: string) => path.join(DATA_DIR, `discovery-history-${ownerId.replace(/[^a-zA-Z0-9-]/g, "")}.json`);
 
 export interface CandidateHistoryRecord {
   sourceUrl: string;
@@ -48,10 +48,10 @@ async function ensureDataDir(): Promise<void> {
   }
 }
 
-export async function getDiscoveryHistory(): Promise<DiscoveryHistoryData> {
+export async function getDiscoveryHistory(ownerId: string): Promise<DiscoveryHistoryData> {
   await ensureDataDir();
   try {
-    const raw = await fs.readFile(HISTORY_FILE, "utf-8");
+    const raw = await fs.readFile(historyFile(ownerId), "utf-8");
     const parsed = JSON.parse(raw);
     return {
       runs: Array.isArray(parsed.runs) ? parsed.runs : [],
@@ -59,7 +59,7 @@ export async function getDiscoveryHistory(): Promise<DiscoveryHistoryData> {
     };
   } catch (err: any) {
     if (err.code === "ENOENT") {
-      await fs.writeFile(HISTORY_FILE, JSON.stringify(DEFAULT_HISTORY, null, 2), "utf-8");
+      await fs.writeFile(historyFile(ownerId), JSON.stringify(DEFAULT_HISTORY, null, 2), "utf-8");
       return DEFAULT_HISTORY;
     }
     console.error("Failed to read discovery history file:", err);
@@ -67,15 +67,16 @@ export async function getDiscoveryHistory(): Promise<DiscoveryHistoryData> {
   }
 }
 
-export async function saveDiscoveryHistory(history: DiscoveryHistoryData): Promise<void> {
+export async function saveDiscoveryHistory(ownerId: string, history: DiscoveryHistoryData): Promise<void> {
   await ensureDataDir();
   const serialized = JSON.stringify(history, null, 2);
-  const tmpFile = `${HISTORY_FILE}.${Date.now()}.${Math.random().toString(36).substring(2)}.tmp`;
+  const file = historyFile(ownerId);
+  const tmpFile = `${file}.${Date.now()}.${Math.random().toString(36).substring(2)}.tmp`;
   await fs.writeFile(tmpFile, serialized, "utf-8");
   try {
-    await fs.rename(tmpFile, HISTORY_FILE);
+    await fs.rename(tmpFile, file);
   } catch {
-    await fs.writeFile(HISTORY_FILE, serialized, "utf-8");
+    await fs.writeFile(file, serialized, "utf-8");
     try {
       await fs.unlink(tmpFile);
     } catch {}
@@ -83,10 +84,11 @@ export async function saveDiscoveryHistory(history: DiscoveryHistoryData): Promi
 }
 
 export async function recordDiscoveryRunHistory(
+  ownerId: string,
   runEntry: DiscoveryRunHistoryEntry,
   candidateRecords: CandidateAuditRecord[]
 ): Promise<void> {
-  const history = await getDiscoveryHistory();
+  const history = await getDiscoveryHistory(ownerId);
   
   // Record run
   history.runs.unshift(runEntry);
@@ -119,11 +121,11 @@ export async function recordDiscoveryRunHistory(
     };
   }
 
-  await saveDiscoveryHistory(history);
+  await saveDiscoveryHistory(ownerId, history);
 }
 
-export async function getPreviouslyRejectedUrls(): Promise<Map<string, CandidateHistoryRecord>> {
-  const history = await getDiscoveryHistory();
+export async function getPreviouslyRejectedUrls(ownerId: string): Promise<Map<string, CandidateHistoryRecord>> {
+  const history = await getDiscoveryHistory(ownerId);
   const rejectedMap = new Map<string, CandidateHistoryRecord>();
   for (const [url, record] of Object.entries(history.candidateHistory)) {
     if (record.status === "rejected") {
