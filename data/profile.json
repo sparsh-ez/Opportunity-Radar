@@ -1,0 +1,95 @@
+{
+  "id": "default-user",
+  "fullName": "Sparsh Shishodia",
+  "email": "shishodiasparsh@gmail.com",
+  "college": "GCET",
+  "degree": "BTECH",
+  "academicBranch": "CSE",
+  "currentYear": "3rd Year",
+  "graduationYear": "2027",
+  "skills": [
+    "JavaScript",
+    "React",
+    "Python",
+    "TypeScript",
+    "Next.js",
+    "Node.js",
+    "Tailwind CSS",
+    "REST APIs",
+    "Prisma",
+    "Express",
+    "Docker",
+    "HTML/CSS",
+    "Machine Learning",
+    "Artificial Intelligence",
+    "TensorFlow",
+    "Java",
+    "C++",
+    "Go",
+    "Rust",
+    "PostgreSQL",
+    "MongoDB",
+    "Git",
+    "PyTorch",
+    "Data Science",
+    "UI/UX",
+    "C"
+  ],
+  "interests": [
+    "Artificial Intelligence",
+    "Web Development",
+    "Hackathons",
+    "App Development",
+    "Cybersecurity",
+    "Blockchain",
+    "UI/UX Design",
+    "Entrepreneurship",
+    "Cloud Computing",
+    "Open Source",
+    "Full-Stack Development",
+    "Machine Learning",
+    "Product Development",
+    "Competitive Programming",
+    "Data Science"
+  ],
+  "opportunityPreferences": [
+    "hackathon",
+    "internship",
+    "event",
+    "competition",
+    "workshop",
+    "fellowship",
+    "open_source",
+    "program",
+    "conference"
+  ],
+  "preferredCities": [
+    "Delhi NCR"
+  ],
+  "preferredCountries": [
+    "India",
+    "Global"
+  ],
+  "workModes": [
+    "remote",
+    "hybrid",
+    "on_site"
+  ],
+  "eventModes": [
+    "online",
+    "offline"
+  ],
+  "internshipCompensation": "either",
+  "internshipDuration": "2-3 months",
+  "internshipWorkType": [
+    "part_time"
+  ],
+  "lookingForInternship": true,
+  "weekendHackathons": true,
+  "programTypePreference": "both",
+  "additionalNotes": null,
+  "isConfirmed": true,
+  "resumeFileName": null,
+  "createdAt": "2026-11-13T12:02:46.875Z",
+  "updatedAt": "2026-11-16T06:18:38.832Z"
+}

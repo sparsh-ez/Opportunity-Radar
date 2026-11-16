@@ -1,0 +1,470 @@
+{
+  "runs": [
+    {
+      "runId": "run-1794810252798-ebirn",
+      "startedAt": "2026-11-16T06:24:12.798Z",
+      "completedAt": "2026-11-16T06:24:29.107Z",
+      "sourceIds": [
+        "luma"
+      ],
+      "totalRawFound": 0,
+      "newlySaved": 0,
+      "alreadyExists": 0,
+      "excludedCount": 0,
+      "reconciled": true
+    },
+    {
+      "runId": "run-1794810206539-je2hr",
+      "startedAt": "2026-11-16T06:23:26.541Z",
+      "completedAt": "2026-11-16T06:23:48.086Z",
+      "sourceIds": [
+        "luma"
+      ],
+      "totalRawFound": 0,
+      "newlySaved": 0,
+      "alreadyExists": 0,
+      "excludedCount": 0,
+      "reconciled": true
+    },
+    {
+      "runId": "run-1794809739886-0p1h7",
+      "startedAt": "2026-11-16T06:15:39.887Z",
+      "completedAt": "2026-11-16T06:16:14.210Z",
+      "sourceIds": [
+        "unstop",
+        "luma"
+      ],
+      "totalRawFound": 6,
+      "newlySaved": 4,
+      "alreadyExists": 0,
+      "excludedCount": 2,
+      "reconciled": true
+    },
+    {
+      "runId": "run-1794585362136-rjce6",
+      "startedAt": "2026-11-13T15:56:02.136Z",
+      "completedAt": "2026-11-13T16:16:32.189Z",
+      "sourceIds": [
+        "internshala",
+        "unstop",
+        "devfolio",
+        "luma"
+      ],
+      "totalRawFound": 12,
+      "newlySaved": 7,
+      "alreadyExists": 0,
+      "excludedCount": 5,
+      "reconciled": true
+    },
+    {
+      "runId": "run-1794585483300-8mpxs",
+      "startedAt": "2026-11-13T15:58:03.300Z",
+      "completedAt": "2026-11-13T15:58:43.686Z",
+      "sourceIds": [
+        "internshala",
+        "unstop",
+        "devfolio",
+        "luma"
+      ],
+      "totalRawFound": 12,
+      "newlySaved": 4,
+      "alreadyExists": 0,
+      "excludedCount": 8,
+      "reconciled": true
+    },
+    {
+      "runId": "run-1794584736160-qg8zj",
+      "startedAt": "2026-11-13T15:45:36.161Z",
+      "completedAt": "2026-11-13T15:46:16.849Z",
+      "sourceIds": [
+        "internshala",
+        "unstop",
+        "devfolio",
+        "luma"
+      ],
+      "totalRawFound": 12,
+      "newlySaved": 7,
+      "alreadyExists": 0,
+      "excludedCount": 5,
+      "reconciled": true
+    },
+    {
+      "runId": "run-1794584459051-wayjo",
+      "startedAt": "2026-11-13T15:40:59.051Z",
+      "completedAt": "2026-11-13T15:41:43.277Z",
+      "sourceIds": [
+        "unstop",
+        "devfolio",
+        "internshala",
+        "luma"
+      ],
+      "totalRawFound": 10,
+      "newlySaved": 5,
+      "alreadyExists": 0,
+      "excludedCount": 5,
+      "reconciled": true
+    }
+  ],
+  "candidateHistory": {
+    "https://unstop.com/hackathons/crp-superr-selector-season-2-help-shape-rajasthan-royals-ipl-2027-auction-strategy-rajasthan-royals-1792758": {
+      "sourceUrl": "https://unstop.com/hackathons/crp-superr-selector-season-2-help-shape-rajasthan-royals-ipl-2027-auction-strategy-rajasthan-royals-1792758",
+      "sourcePlatform": "unstop",
+      "title": "SupeRR Selector Season 2: Help Shape Rajasthan Royals' IPL 2027 Auction Strategy",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastRunId": "run-1794809739886-0p1h7",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_LOCATION",
+      "exactReason": "Physical event in \"Mumbai\" does not match user's preferred location (Delhi NCR)",
+      "existingRecordId": null
+    },
+    "https://devnexus2.devfolio.co/": {
+      "sourceUrl": "https://devnexus2.devfolio.co/",
+      "sourcePlatform": "devfolio",
+      "title": "DevNexus 2.0",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_LOCATION",
+      "exactReason": "Physical event in \"Kolkata, India\" does not match user's preferred location (Delhi NCR)",
+      "existingRecordId": null
+    },
+    "https://genarrative-clash.devfolio.co/": {
+      "sourceUrl": "https://genarrative-clash.devfolio.co/",
+      "sourcePlatform": "devfolio",
+      "title": "GeNarrative Clash 2026",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_LOCATION",
+      "exactReason": "Physical event in \"Techno India University, EM Block, Sector V, Salt Lake, Kolkata, West Bengal 700091\" does not match user's preferred location (Delhi NCR)",
+      "existingRecordId": null
+    },
+    "https://lean-in-hacks-8.devfolio.co/": {
+      "sourceUrl": "https://lean-in-hacks-8.devfolio.co/",
+      "sourcePlatform": "devfolio",
+      "title": "Lean In Hacks 8.0",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-web-development-internship-at-eduminatti1794547188": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-web-development-internship-at-eduminatti1794547188",
+      "sourcePlatform": "internshala",
+      "title": "Web Development - Internship (WFH & Part Time)",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastRunId": "run-1794584459051-wayjo",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-part-time-web-development-internship-at-basti-ki-pathshala-foundation1794575000": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-part-time-web-development-internship-at-basti-ki-pathshala-foundation1794575000",
+      "sourcePlatform": "internshala",
+      "title": "Web Development Work From Home Part Time Internship",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastRunId": "run-1794584459051-wayjo",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-web-development-internship-at-telos-digital-solutions1794572317": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-web-development-internship-at-telos-digital-solutions1794572317",
+      "sourcePlatform": "internshala",
+      "title": "Web Development Work From Home Part Time Internship at Telos Digital Solutions",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastRunId": "run-1794584459051-wayjo",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/o6ijcouo": {
+      "sourceUrl": "https://lu.ma/o6ijcouo",
+      "sourcePlatform": "luma",
+      "title": "Beyond the Browser · Luma",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_REGISTRATION_CLOSED",
+      "exactReason": "Opportunity registration is explicitly closed",
+      "existingRecordId": null
+    },
+    "https://lu.ma/builders-delhi": {
+      "sourceUrl": "https://lu.ma/builders-delhi",
+      "sourcePlatform": "luma",
+      "title": "Supabase x Cyberwave Builders Meetup · Delhi NCR",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastRunId": "run-1794584459051-wayjo",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/x72oq3j5": {
+      "sourceUrl": "https://lu.ma/x72oq3j5",
+      "sourcePlatform": "luma",
+      "title": "DINK & DASH",
+      "firstSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastSeenAt": "2026-11-13T15:41:43.279Z",
+      "lastRunId": "run-1794584459051-wayjo",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-full-stack-development-internship-at-nayepankh-foundation1794561672": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-full-stack-development-internship-at-nayepankh-foundation1794561672",
+      "sourcePlatform": "internshala",
+      "title": "Full Stack Development - Internship",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastRunId": "run-1794584736160-qg8zj",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-ai-web-development-internship-at-inamigos-foundation1794563068": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-ai-web-development-internship-at-inamigos-foundation1794563068",
+      "sourcePlatform": "internshala",
+      "title": "AI Web Development Internship",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastRunId": "run-1794584736160-qg8zj",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-ai-prompt-engineering-internship-at-inamigos-foundation1794563126": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-ai-prompt-engineering-internship-at-inamigos-foundation1794563126",
+      "sourcePlatform": "internshala",
+      "title": "AI Prompt Engineering Work From Home Internship",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastRunId": "run-1794584736160-qg8zj",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://unstop.com/internships/content-writer-internship-vansun-mediatech-pvt-ltd-1808629": {
+      "sourceUrl": "https://unstop.com/internships/content-writer-internship-vansun-mediatech-pvt-ltd-1808629",
+      "sourcePlatform": "unstop",
+      "title": "Content Writer Internship",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastRunId": "run-1794584736160-qg8zj",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://unstop.com/internships/it-security-consultant-internship-clarity2cloud-technology-private-limited-1808095": {
+      "sourceUrl": "https://unstop.com/internships/it-security-consultant-internship-clarity2cloud-technology-private-limited-1808095",
+      "sourcePlatform": "unstop",
+      "title": "IT Security Consultant Internship",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/anibhszi": {
+      "sourceUrl": "https://lu.ma/anibhszi",
+      "sourcePlatform": "luma",
+      "title": "Sunday 5K Run X Coffee",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastRunId": "run-1794584736160-qg8zj",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/6r8hgxec": {
+      "sourceUrl": "https://lu.ma/6r8hgxec",
+      "sourcePlatform": "luma",
+      "title": "Notion Unlocked",
+      "firstSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastSeenAt": "2026-11-13T15:46:16.858Z",
+      "lastRunId": "run-1794584736160-qg8zj",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-part-time-web-development-internship-at-she-can-foundation1794571764": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-part-time-web-development-internship-at-she-can-foundation1794571764",
+      "sourcePlatform": "internshala",
+      "title": "Web Development - Internship (WFH & Part Time)",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-software-development-internship-at-ten1790309126": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-software-development-internship-at-ten1790309126",
+      "sourcePlatform": "internshala",
+      "title": "Software Development - Internship (WFH & Part Time)",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://internshala.com/internship/detail/work-from-home-full-stack-development-internship-at-reducateai1794579599": {
+      "sourceUrl": "https://internshala.com/internship/detail/work-from-home-full-stack-development-internship-at-reducateai1794579599",
+      "sourcePlatform": "internshala",
+      "title": "Full Stack Development Internship",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://unstop.com/hackathons/code-rush-24-hours-hackathon-ignitron-2k26-gm-university-davanagere-1791410": {
+      "sourceUrl": "https://unstop.com/hackathons/code-rush-24-hours-hackathon-ignitron-2k26-gm-university-davanagere-1791410",
+      "sourcePlatform": "unstop",
+      "title": "Code Rush – 24 Hours Hackathon",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastRunId": "run-1794585483300-8mpxs",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_LOCATION",
+      "exactReason": "Physical event in \"GM University, Davangere, Karnataka\" does not match user's preferred location (Delhi NCR)",
+      "existingRecordId": null
+    },
+    "https://unstop.com/hackathons/capture-the-flag-ctf-ignitron-2k26-gm-university-davanagere-1791574": {
+      "sourceUrl": "https://unstop.com/hackathons/capture-the-flag-ctf-ignitron-2k26-gm-university-davanagere-1791574",
+      "sourcePlatform": "unstop",
+      "title": "Capture The Flag (CTF) - IGNITRON 2K26",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastRunId": "run-1794585483300-8mpxs",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_LOCATION",
+      "exactReason": "Physical event in \"GM University, Davanagere, Karnataka, India\" does not match user's preferred location (Delhi NCR)",
+      "existingRecordId": null
+    },
+    "https://lu.ma/w7ewq1cb": {
+      "sourceUrl": "https://lu.ma/w7ewq1cb",
+      "sourcePlatform": "luma",
+      "title": "Miles & melody - A Sundowner Experience",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_REGISTRATION_CLOSED",
+      "exactReason": "Opportunity registration is explicitly closed",
+      "existingRecordId": null
+    },
+    "https://lu.ma/dk5zmvyv": {
+      "sourceUrl": "https://lu.ma/dk5zmvyv",
+      "sourcePlatform": "luma",
+      "title": "Dub Theory",
+      "firstSeenAt": "2026-11-13T15:58:43.689Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://unstop.com/internships/human-resources-internship-croevo-ai-1808428": {
+      "sourceUrl": "https://unstop.com/internships/human-resources-internship-croevo-ai-1808428",
+      "sourcePlatform": "unstop",
+      "title": "Human Resources Internship",
+      "firstSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastSeenAt": "2026-11-13T16:16:32.218Z",
+      "lastRunId": "run-1794585362136-rjce6",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://unstop.com/hackathons/crp-seed-hackathon-2026-seed-global-education-services-private-limited-1798287": {
+      "sourceUrl": "https://unstop.com/hackathons/crp-seed-hackathon-2026-seed-global-education-services-private-limited-1798287",
+      "sourcePlatform": "unstop",
+      "title": "Seed Hackathon 2026",
+      "firstSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastRunId": "run-1794809739886-0p1h7",
+      "status": "rejected",
+      "finalDisposition": "EXCLUDED_EXPIRED",
+      "exactReason": "Event date \"2026-10-10\" has already passed",
+      "existingRecordId": null
+    },
+    "https://unstop.com/competitions/crp-eurogrip-creator-challenge-eurogrip-torq-40-and-creator-challenge-tvs-srichakra-ltd-eurogrip-tyres-1747168": {
+      "sourceUrl": "https://unstop.com/competitions/crp-eurogrip-creator-challenge-eurogrip-torq-40-and-creator-challenge-tvs-srichakra-ltd-eurogrip-tyres-1747168",
+      "sourcePlatform": "unstop",
+      "title": "Eurogrip TORQ Challenge 4.0: Creator Challenge",
+      "firstSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastRunId": "run-1794809739886-0p1h7",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/nerds-winter-of-code": {
+      "sourceUrl": "https://lu.ma/nerds-winter-of-code",
+      "sourcePlatform": "luma",
+      "title": "Nerds Winter of Code",
+      "firstSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastRunId": "run-1794809739886-0p1h7",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/2o05q51x": {
+      "sourceUrl": "https://lu.ma/2o05q51x",
+      "sourcePlatform": "luma",
+      "title": "One Human, Ten AI Agents",
+      "firstSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastRunId": "run-1794809739886-0p1h7",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    },
+    "https://lu.ma/vv8rfzi9": {
+      "sourceUrl": "https://lu.ma/vv8rfzi9",
+      "sourcePlatform": "luma",
+      "title": "Observability | Insights | Impact | Grafana Delhi Dec 2026 Meetup",
+      "firstSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastSeenAt": "2026-11-16T06:16:14.216Z",
+      "lastRunId": "run-1794809739886-0p1h7",
+      "status": "newly_saved",
+      "finalDisposition": "SAVED_NEW",
+      "exactReason": "Passed all qualification checks and successfully saved to review queue.",
+      "existingRecordId": null
+    }
+  }
+}

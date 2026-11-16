@@ -1,0 +1,21 @@
+import { NextResponse } from "next/server";
+import { getNotionConfig } from "@/lib/notion/client";
+
+export async function GET() {
+  const { apiKey, databaseId } = getNotionConfig();
+  const hasGeminiKey = Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== "your_gemini_api_key_here");
+
+  return NextResponse.json({
+    notion: {
+      isConfigured: Boolean(apiKey && databaseId && apiKey !== "your_notion_api_key_here"),
+      hasApiKey: Boolean(apiKey && apiKey !== "your_notion_api_key_here"),
+      hasDatabaseId: Boolean(databaseId && databaseId !== "your_notion_database_id_here"),
+      databaseIdMasked: databaseId ? `${databaseId.substring(0, 6)}...${databaseId.substring(databaseId.length - 4)}` : null,
+    },
+    gemini: {
+      isConfigured: hasGeminiKey,
+      model: "gemini-3.5-flash-lite",
+    },
+  });
+}
+
