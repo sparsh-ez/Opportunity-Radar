@@ -28,7 +28,7 @@ export async function PATCH(
     const user = await requireUser();
     if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const { id } = await context.params;
-    const existing = await getOpportunityById(id);
+    const existing = await getOpportunityById(id, user.id);
     if (!existing) {
       return NextResponse.json({ success: false, error: "Opportunity not found" }, { status: 404 });
     }
@@ -61,6 +61,8 @@ export async function DELETE(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const { id } = await context.params;
     const deleted = await deleteOpportunity(id, user.id);
     if (!deleted) {
