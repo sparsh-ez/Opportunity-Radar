@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseResumeDocument } from "@/lib/parser/document";
 import { extractResumeWithGemini } from "@/lib/ai/resume";
+import { requireUser } from "@/lib/require-user";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const formData = await req.formData();
     const file = formData.get("resume") as File | null;
 
