@@ -1172,7 +1172,7 @@ export async function exportOpportunityToNotion(
           return {
             success: true,
             isVerified: true,
-            pageId,
+            pageId: pageId || undefined,
             pageUrl: pageUrl || undefined,
             isUpdate: true,
             verificationReport,
