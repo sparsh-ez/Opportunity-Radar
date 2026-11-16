@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getProfile } from "@/lib/profile-storage";
 import { runPersonalizedDiscovery } from "@/lib/discovery/runner";
 import { DiscoverySourceId } from "@/types/profile";
+import { requireUser } from "@/lib/require-user";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const body = await req.json().catch(() => ({}));
-    let profile = await getProfile();
+    let profile = await getProfile(user.id);
 
     if (body.profile) {
       profile = { ...profile, ...body.profile };
@@ -28,7 +31,7 @@ export async function POST(req: NextRequest) {
       sourceIds = ["internshala", "unstop", "devfolio", "luma"];
     }
 
-    const result = await runPersonalizedDiscovery(profile, sourceIds);
+    const result = await runPersonalizedDiscovery(profile, sourceIds, user.id);
 
     return NextResponse.json({
       success: true,
