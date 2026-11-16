@@ -3,7 +3,7 @@ import { supabaseRest } from "./supabase-rest";
 
 type ProfileRow = { id: string; data: unknown };
 
-export async function getProfile(ownerId: string): Promise<UserProfile | null> {
+export async function getProfile(ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<UserProfile | null> {
   const rows = await supabaseRest<ProfileRow[]>(
     "user_profiles",
     { query: `select=id,data&owner_id=eq.${encodeURIComponent(ownerId)}&limit=1` }
@@ -19,7 +19,7 @@ export async function getProfile(ownerId: string): Promise<UserProfile | null> {
 
 export const getUserProfile = getProfile;
 
-export async function saveProfile(profile: UserProfile, ownerId: string): Promise<UserProfile> {
+export async function saveProfile(profile: UserProfile, ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<UserProfile> {
   const validated = UserProfileSchema.parse({
     ...profile,
     updatedAt: new Date().toISOString(),
@@ -33,7 +33,7 @@ export async function saveProfile(profile: UserProfile, ownerId: string): Promis
   return validated;
 }
 
-export async function clearProfile(ownerId: string): Promise<void> {
+export async function clearProfile(ownerId: string = "00000000-0000-0000-0000-000000000000"): Promise<void> {
   await supabaseRest<unknown>("user_profiles", {
     method: "DELETE",
     query: `owner_id=eq.${encodeURIComponent(ownerId)}`,
