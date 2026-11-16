@@ -25,6 +25,7 @@ export async function supabaseRest<T>(
     method: options.method || "GET",
     headers: {
       apikey: secretKey,
+      Authorization: `Bearer ${secretKey}`,
       "Content-Type": "application/json",
       ...(options.prefer ? { Prefer: options.prefer } : {}),
     },
@@ -32,12 +33,21 @@ export async function supabaseRest<T>(
     cache: "no-store",
   });
 
+  const responseText = await response.text();
+
   if (!response.ok) {
-    const detail = await response.text();
-    console.error(`Supabase REST request failed (${response.status}):`, detail);
+    console.error(`Supabase REST request failed (${response.status}):`, responseText);
     throw new Error(`Supabase database request failed with status ${response.status}.`);
   }
 
-  if (response.status === 204) return undefined as T;
-  return (await response.json()) as T;
+  // PostgREST can return an empty body for successful writes using return=minimal.
+  // Do not JSON.parse an empty success response.
+  if (!responseText.trim()) return undefined as T;
+
+  try {
+    return JSON.parse(responseText) as T;
+  } catch {
+    console.error("Supabase REST returned a non-JSON success response.");
+    throw new Error("Supabase returned an invalid response.");
+  }
 }
