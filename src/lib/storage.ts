@@ -12,7 +12,7 @@ export async function getOpportunities(ownerId: string = "00000000-0000-0000-000
   return rows.map((row) => normalizeOpportunityRecord(row.data));
 }
 
-export async function saveOpportunities(ownerId: string = "00000000-0000-0000-0000-000000000000", opportunities: Opportunity[]): Promise<void> {
+export async function saveOpportunities(ownerId: string = "00000000-0000-0000-0000-000000000000", opportunities: Opportunity[] = []): Promise<void> {
   const rows = opportunities.map((opportunity) => ({
     id: opportunity.id.startsWith(`${ownerId}:`) ? opportunity.id : `${ownerId}:${opportunity.id}`,
     owner_id: ownerId,
