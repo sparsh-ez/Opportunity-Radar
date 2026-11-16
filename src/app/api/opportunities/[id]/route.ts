@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOpportunityById, upsertOpportunity, deleteOpportunity } from "@/lib/storage";
+import { requireUser } from "@/lib/require-user";
 
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const { id } = await context.params;
-    const opp = await getOpportunityById(id);
+    const opp = await getOpportunityById(id, user.id);
     if (!opp) {
       return NextResponse.json({ success: false, error: "Opportunity not found" }, { status: 404 });
     }
@@ -44,7 +47,7 @@ export async function PATCH(
     }
     merged.missingFields = missingFields;
 
-    const saved = await upsertOpportunity(merged);
+    const saved = await upsertOpportunity(merged, user.id);
     return NextResponse.json({ success: true, data: saved });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err?.message }, { status: 500 });
@@ -57,7 +60,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await context.params;
-    const deleted = await deleteOpportunity(id);
+    const deleted = await deleteOpportunity(id, user.id);
     if (!deleted) {
       return NextResponse.json({ success: false, error: "Opportunity not found" }, { status: 404 });
     }
