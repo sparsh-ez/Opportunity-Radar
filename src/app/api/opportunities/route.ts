@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOpportunities, upsertOpportunity } from "@/lib/storage";
 import { OpportunitySchema } from "@/types/opportunity";
+import { requireUser } from "@/lib/require-user";
 
 export async function GET(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
     const status = searchParams.get("status");
     const search = searchParams.get("search")?.toLowerCase();
 
-    let items = await getOpportunities();
+    let items = await getOpportunities(user.id);
 
     if (category && category !== "all") {
       items = items.filter((o) => o.category === category);
@@ -57,6 +60,8 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireUser();
+    if (!user) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     const body = await req.json();
     const validated = OpportunitySchema.safeParse({
       ...body,
@@ -72,7 +77,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const saved = await upsertOpportunity(validated.data);
+    const saved = await upsertOpportunity(validated.data, user.id);
     return NextResponse.json({ success: true, data: saved });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err?.message }, { status: 500 });
