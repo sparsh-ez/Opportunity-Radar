@@ -5,7 +5,6 @@ import {
   Check,
   Plus,
   X,
-  Sparkles,
   ArrowRight,
   ArrowLeft,
   AlertCircle,
@@ -13,15 +12,12 @@ import {
   Laptop,
   Users,
 } from "lucide-react";
-import { UserProfile, ExtractedResumeData, OpportunityType } from "@/types/profile";
+import { UserProfile, OpportunityType } from "@/types/profile";
 import { LocationAutocomplete } from "./LocationAutocomplete";
 
 interface QuestionnaireStepProps {
-  initialPrefill: ExtractedResumeData | null;
   existingProfile?: Partial<UserProfile> | null;
-  resumeFileName?: string | null;
   onComplete: (profile: Partial<UserProfile>) => void;
-  onBackToResume: () => void;
 }
 
 const SUGGESTED_SKILLS = [
@@ -53,25 +49,20 @@ const OPPORTUNITY_TYPES: Array<{ id: OpportunityType; label: string; desc: strin
 ];
 
 export const QuestionnaireStep: React.FC<QuestionnaireStepProps> = ({
-  initialPrefill,
   existingProfile,
-  resumeFileName,
   onComplete,
-  onBackToResume,
 }) => {
-  // Form state initialized with existing profile or resume prefill
+  // Form state initialized from the existing discovery profile
   const [formData, setFormData] = useState(() => ({
-    fullName: existingProfile?.fullName || initialPrefill?.fullName || "",
-    email: existingProfile?.email ?? (initialPrefill?.email || ""),
-    college: existingProfile?.college || initialPrefill?.college || "",
-    degree: existingProfile?.degree || initialPrefill?.degree || "",
-    academicBranch: existingProfile?.academicBranch || initialPrefill?.academicBranch || "",
+    fullName: existingProfile?.fullName || "",
+    email: existingProfile?.email || "",
+    college: existingProfile?.college || "",
+    degree: existingProfile?.degree || "",
+    academicBranch: existingProfile?.academicBranch || "",
     currentYear: existingProfile?.currentYear || "3rd Year",
-    graduationYear: existingProfile?.graduationYear || initialPrefill?.graduationYear || "2027",
+    graduationYear: existingProfile?.graduationYear || "2027",
     skills: existingProfile?.skills?.length
       ? existingProfile.skills
-      : initialPrefill?.skills?.length
-      ? initialPrefill.skills
       : ["JavaScript", "React", "Python"],
     interests: existingProfile?.interests?.length
       ? existingProfile.interests
@@ -236,7 +227,7 @@ export const QuestionnaireStep: React.FC<QuestionnaireStepProps> = ({
       // Finished all sections
       onComplete({
         ...formData,
-        resumeFileName: resumeFileName || null,
+        resumeFileName: null,
         isConfirmed: true,
       });
     }
@@ -249,9 +240,8 @@ export const QuestionnaireStep: React.FC<QuestionnaireStepProps> = ({
     }
     if (activeSection > 1) {
       setActiveSection(activeSection - 1);
-    } else {
-      onBackToResume();
     }
+
   };
 
   return (
@@ -262,12 +252,7 @@ export const QuestionnaireStep: React.FC<QuestionnaireStepProps> = ({
           <span className="font-semibold text-[#0E1738]">
             Section {activeSection} of {totalSections}
           </span>
-          {initialPrefill && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#1E3A8A] bg-[#DDE5FE] px-2 py-0.5 rounded-full">
-              <Sparkles className="w-3 h-3" />
-              Prefilled from resume • Fully editable
-            </span>
-          )}
+
         </div>
 
         {/* Progress Bar */}
@@ -855,10 +840,11 @@ export const QuestionnaireStep: React.FC<QuestionnaireStepProps> = ({
           <button
             type="button"
             onClick={handlePrev}
+            disabled={activeSection === 1}
             className="px-4 py-2.5 rounded-xl border border-[#CBD5E1] text-xs font-semibold text-[#64748B] hover:text-[#0E1738] hover:bg-[#F8FAFD] flex items-center space-x-1.5 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>{activeSection === 1 ? "Back to Resume" : "Previous"}</span>
+            <span>Previous</span>
           </button>
 
           <button
