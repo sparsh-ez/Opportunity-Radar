@@ -77,6 +77,7 @@ export type DiscoveryProgressCallback = (event: DiscoveryStreamEvent) => void;
 export async function runPersonalizedDiscovery(
   profile: UserProfile,
   sourceIds: DiscoverySourceId[],
+  ownerId: string,
   onProgress?: DiscoveryProgressCallback
 ): Promise<DiscoveryRunResult> {
   const runId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -129,7 +130,7 @@ export async function runPersonalizedDiscovery(
     interestsSample: profile.interests.slice(0, 5),
   });
 
-  const existing = await getOpportunities();
+  const existing = await getOpportunities(ownerId);
   const sourceReports: SourceReport[] = [];
   const rawDiscovered: Opportunity[] = [];
 
@@ -417,7 +418,7 @@ export async function runPersonalizedDiscovery(
       } else {
         // 4. Persistence to disk
         try {
-          await saveOpportunity(opp);
+          await saveOpportunity(opp, ownerId);
           persistenceResult = "SAVED";
           newlyAdded.push(opp);
           finalDisposition = "SAVED_NEW";
@@ -518,6 +519,7 @@ export async function runPersonalizedDiscovery(
   // Record persistent discovery run & candidate history
   try {
     await recordDiscoveryRunHistory(
+      ownerId,
       {
         runId,
         startedAt: timestamp,
